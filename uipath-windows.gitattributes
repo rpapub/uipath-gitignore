@@ -1,0 +1,71 @@
+# UiPath Studio .gitattributes — modern Studio (project.json targetFramework=Windows / .NET 6)
+#
+# Two concerns covered:
+#   1. Text handling for the non-Studio world (CI runners, GitHub web UI,
+#      teammates reviewing without Studio open).
+#   2. GitHub Linguist hints so the repo's language bar reflects the
+#      actual stack and not just "XML" (dominant XAML byte count).
+#
+# Antipattern note: bleeding-edge UiPath Studio injects rules like
+# `*.json binary` and `*.xaml binary` into .git/info/attributes on every
+# project open. Per-clone attributes have higher precedence than this
+# committed file, so locally-open-in-Studio clones still see "binary"
+# diffs for JSON/XAML. That override is per-clone, never propagates, and
+# is irrelevant to anything outside the developer's local working tree —
+# commits, CI, and PR review all honour the rules below.
+
+
+# ─── Text handling ────────────────────────────────────────────────────────
+
+# Auto-detect text vs binary for anything not matched below
+* text=auto
+
+# UiPath text formats — explicit text classification with Windows-native
+# CRLF on checkout (matches what Studio writes)
+*.xaml      text eol=crlf
+*.json      text eol=crlf
+*.uiproj    text eol=crlf
+*.cs        text eol=crlf
+*.bas       text eol=crlf
+
+# Cross-platform text — let git normalize to the user's platform
+*.md        text
+*.py        text
+*.ps1       text eol=crlf
+*.yml       text
+*.yaml      text
+
+# Explicit binary — block accidental EOL conversion / text classification
+*.xlsx      binary
+*.xls       binary
+*.nupkg     binary
+*.dll       binary
+*.exe       binary
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.ico       binary
+*.cur       binary
+*.ttf       binary
+*.woff      binary
+*.woff2     binary
+*.pdf       binary
+*.zip       binary
+
+
+# ─── GitHub Linguist ──────────────────────────────────────────────────────
+#
+# Only override where Linguist's defaults are wrong or where we need to
+# hide noise. Native detection of .xaml (XAML), .cs (C#), and .py (Python)
+# is correct on its own — don't masquerade them.
+#
+# Linguist runs on github.com only; local tools and CI ignore these rules.
+
+# .bas is ambiguous (BASIC dialects); in UiPath context it's VBA
+*.bas                       linguist-language=VBA
+
+# UiPath metadata JSON — small, Studio-rewritten, keep out of stats
+*.uiproj                    linguist-generated=true
+Main.xaml.json              linguist-generated=true
+entry-points.json           linguist-generated=true
+Folderid.json               linguist-generated=true
