@@ -1,4 +1,4 @@
-# UiPath Studio .gitattributes — modern Studio (project.json targetFramework=Windows / .NET 6)
+# UiPath Studio .gitattributes — applies to both Windows (.NET 6) and Legacy (.NET Framework) targets
 #
 # Two concerns covered:
 #   1. Text handling for the non-Studio world (CI runners, GitHub web UI,

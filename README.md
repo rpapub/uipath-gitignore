@@ -9,11 +9,11 @@ Two `.gitignore` flavours, matching the two project target frameworks Studio sup
 | [`uipath-windows.gitignore`](./uipath-windows.gitignore) | `"targetFramework": "Windows"` | Modern Studio (.NET 6, 2023.10+) |
 | [`uipath-legacy.gitignore`](./uipath-legacy.gitignore) | `"targetFramework": "Legacy"` | Classic Studio (.NET Framework 4.6.x) |
 
-Plus one companion `.gitattributes` for modern Studio:
+Plus one shared `.gitattributes` (no Windows/Legacy split — text/binary handling and Linguist hints are the same for both targets):
 
 | File | Purpose |
 |---|---|
-| [`uipath-windows.gitattributes`](./uipath-windows.gitattributes) | Text/binary classification + GitHub Linguist hints |
+| [`.gitattributes`](./.gitattributes) | Text/binary classification + GitHub Linguist hints |
 
 ## How to use
 
@@ -22,11 +22,10 @@ Copy the appropriate file(s) to your project's repo root, renaming as needed:
 ```bash
 # Modern Studio — both files
 curl -O https://raw.githubusercontent.com/rpapub/uipath-gitignore/main/uipath-windows.gitignore
-curl -O https://raw.githubusercontent.com/rpapub/uipath-gitignore/main/uipath-windows.gitattributes
+curl -O https://raw.githubusercontent.com/rpapub/uipath-gitignore/main/.gitattributes
 mv uipath-windows.gitignore .gitignore
-mv uipath-windows.gitattributes .gitattributes
 
-# Legacy Studio — gitignore only
+# Legacy Studio — gitignore only (the .gitattributes above applies to both targets)
 curl -O https://raw.githubusercontent.com/rpapub/uipath-gitignore/main/uipath-legacy.gitignore
 mv uipath-legacy.gitignore .gitignore
 ```
